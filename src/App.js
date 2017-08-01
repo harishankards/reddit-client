@@ -9,6 +9,20 @@ class App extends Component {
     firebase.initializeApp(config);
   }
 
+  componentWillMount(){
+    let postsRef = firebase.database().ref('posts');
+    let _this = this;
+
+    postsRef.on('value', function(snapshot) {
+      console.log(snapshot.val());
+
+      _this.setState({
+        posts: snapshot.val(),
+        loading: false
+      });
+    });
+  }
+
   render() {
     return (
       <div className="App">
